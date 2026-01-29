@@ -44,22 +44,21 @@ export default function CreatePasteForm() {
         body.max_views = views
       }
 
-      console.log('[v0] Submitting paste:', body)
       const response = await fetch('/api/pastes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log('[v0] Response status:', response.status)
       const data = await response.json()
-      console.log('[v0] Response data:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to create paste')
       }
 
-      setResult(data)
+      // Build the URL client-side to get the correct origin
+      const clientUrl = `${window.location.origin}/p/${data.id}`
+      setResult({ id: data.id, url: clientUrl })
       setContent('')
       setTtlSeconds('')
       setMaxViews('')
@@ -161,7 +160,7 @@ export default function CreatePasteForm() {
                 </Button>
               </div>
               <a
-                href={result.url}
+                href={`/p/${result.id}`}
                 className="mt-2 inline-block text-sm text-primary hover:underline"
               >
                 View paste
