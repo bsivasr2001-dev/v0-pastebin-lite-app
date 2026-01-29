@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { redis, generateId, getCurrentTime, type Paste } from '@/lib/redis'
+import { getRedis, generateId, getCurrentTime, type Paste } from '@/lib/redis'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    const redis = getRedis()
     
     // Validate content
     if (typeof body.content !== 'string' || body.content.trim() === '') {

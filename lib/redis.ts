@@ -1,9 +1,25 @@
 import { Redis } from '@upstash/redis'
 
-export const redis = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-})
+function getRedisClient() {
+  const url = process.env.KV_REST_API_URL
+  const token = process.env.KV_REST_API_TOKEN
+  
+  if (!url || !token) {
+    throw new Error('Missing Upstash Redis credentials. Please connect the Upstash for Redis integration.')
+  }
+  
+  return new Redis({ url, token })
+}
+
+// Lazy initialization
+let _redis: Redis | null = null
+
+export function getRedis(): Redis {
+  if (!_redis) {
+    _redis = getRedisClient()
+  }
+  return _redis
+}
 
 export interface Paste {
   id: string
