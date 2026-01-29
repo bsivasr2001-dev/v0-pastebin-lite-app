@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { redis, getCurrentTime, isPasteAvailable, type Paste } from '@/lib/redis'
+import { getRedis, getCurrentTime, isPasteAvailable, type Paste } from '@/lib/redis'
 
 export async function GET(
   request: NextRequest,
@@ -8,6 +8,7 @@ export async function GET(
   const { id } = await params
   
   try {
+    const redis = getRedis()
     const data = await redis.get(`paste:${id}`)
     
     if (!data) {

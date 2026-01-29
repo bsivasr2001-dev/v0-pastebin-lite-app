@@ -56,7 +56,9 @@ export default function CreatePasteForm() {
         throw new Error(data.error || 'Failed to create paste')
       }
 
-      setResult(data)
+      // Build the URL client-side to get the correct origin
+      const clientUrl = `${window.location.origin}/p/${data.id}`
+      setResult({ id: data.id, url: clientUrl })
       setContent('')
       setTtlSeconds('')
       setMaxViews('')
@@ -158,7 +160,7 @@ export default function CreatePasteForm() {
                 </Button>
               </div>
               <a
-                href={result.url}
+                href={`/p/${result.id}`}
                 className="mt-2 inline-block text-sm text-primary hover:underline"
               >
                 View paste

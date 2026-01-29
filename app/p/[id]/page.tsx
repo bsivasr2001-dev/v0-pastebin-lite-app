@@ -1,4 +1,4 @@
-import { redis, isPasteAvailable, type Paste } from '@/lib/redis'
+import { getRedis, isPasteAvailable, type Paste } from '@/lib/redis'
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import PasteView from '@/components/paste-view'
@@ -10,6 +10,7 @@ interface PageProps {
 export default async function PastePage({ params }: PageProps) {
   const { id } = await params
   const headersList = await headers()
+  const redis = getRedis()
   
   // Get current time (with TEST_MODE support)
   let currentTime = Date.now()
