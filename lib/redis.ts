@@ -4,6 +4,9 @@ function getRedisClient() {
   const url = process.env.KV_REST_API_URL
   const token = process.env.KV_REST_API_TOKEN
   
+  console.log('[v0] Redis URL exists:', !!url)
+  console.log('[v0] Redis Token exists:', !!token)
+  
   if (!url || !token) {
     throw new Error('Missing Upstash Redis credentials. Please connect the Upstash for Redis integration.')
   }

@@ -44,13 +44,16 @@ export default function CreatePasteForm() {
         body.max_views = views
       }
 
+      console.log('[v0] Submitting paste:', body)
       const response = await fetch('/api/pastes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
+      console.log('[v0] Response status:', response.status)
       const data = await response.json()
+      console.log('[v0] Response data:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to create paste')
